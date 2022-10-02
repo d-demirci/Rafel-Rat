@@ -30,7 +30,7 @@ foreach ($filelist as $file){
                             </select>
                         </div>
 
-                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Dosyayı Göster</button>
+                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Show File</button>
 
                 </div>
 
@@ -83,7 +83,7 @@ foreach ($filelist as $file){
         $.post( "commands.php", { call_log_file: selected_file}, function( data, err ) {
             if (data){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
@@ -104,7 +104,7 @@ foreach ($filelist as $file){
 
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -115,16 +115,16 @@ foreach ($filelist as $file){
     });
 
     $("#command-sender-id").click(function() {
-        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", type: "arama_gecmisi", value: true}, function( data, err ) {
+        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", command: "call_logs"}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

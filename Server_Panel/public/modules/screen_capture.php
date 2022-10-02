@@ -48,7 +48,7 @@ $uid_device = $_GET['target'];
 
             if (data){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
@@ -56,7 +56,7 @@ $uid_device = $_GET['target'];
 
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -67,16 +67,16 @@ $uid_device = $_GET['target'];
     });
 
     $("#command-sender-id").click(function() {
-        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", type: "location_tracker", value: true}, function( data, err ) {
+        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", command: "location_tracker"}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

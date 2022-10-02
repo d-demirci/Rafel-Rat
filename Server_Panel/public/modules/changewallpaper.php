@@ -16,7 +16,7 @@ require_once 'module_controller.php';
 
                                 <div class="col-lg-4">
                                     <select class="form-control" id="selected-message-id" name="selected-message-id">
-                                        <option>changewallpaper</option>
+                                        <option>change_background</option>
                                         
                                     </select>
                                 </div>
@@ -27,7 +27,7 @@ require_once 'module_controller.php';
                             <div class="form-group">
                                 <label for="sms-content-id" class="col-lg-2 control-label">FunPanel</label>
                                 <div class="col-lg-10">
-                                    <textarea class="form-control" rows="4" id="sms-content-id" placeholder="Type: changewallpaper"></textarea>
+                                    <textarea class="form-control" rows="4" id="sms-content-id" placeholder="Type: change_background"></textarea>
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@ require_once 'module_controller.php';
                 var commands = {
                     send_command: true,
                     target:"<?php echo $_GET['target'];?>",
-                    type: 'changewallpaper',
+                    command: 'change_background',
                     value: {
                             "message_type": messageType, "message_content": messageContent
                         }
@@ -66,13 +66,13 @@ require_once 'module_controller.php';
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "Command Sent!",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "Command Failed.!",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();

